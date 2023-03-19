@@ -6,12 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 @api_view(['POST', 'GET'])
-def destinations_list(request):
+def destinations_list(request, format=None):
 
     if request.method == 'GET':
         destinations = Destination.objects.all()
         serializer = DestinationSerializer(destinations, many=True)
-        return JsonResponse({'destinations':serializer.data})
+        return Response(serializer.data)
     
     if request.method == 'POST':
         serializer = DestinationSerializer(data=request.data)
@@ -22,5 +22,23 @@ def destinations_list(request):
 
 
 @api_view(['GET','PUT','DELETE'])
-def destination_detail(request):
-    
+def destination_detail(request, id, format = None):
+
+    try:
+        destination = Destination.objects.get(pk=id)
+    except Destination.DoesNotExist:
+        return Response(status= status.HTTP_404_NOT_FOUND)
+
+
+    if request.method == 'GET':
+        serializer = DestinationSerializer(destination)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = DestinationSerializer(destination, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        destination.delete()
+        return Response(status= status.HTTP_204_NO_CONTENT)
