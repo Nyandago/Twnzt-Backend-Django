@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #auth
+    'rest_framework.authtoken',
+  
+    
+
+    #user accounts
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'destinations.urls'
+
 
 TEMPLATES = [
     {
@@ -76,15 +86,31 @@ WSGI_APPLICATION = 'destinations.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   
+
+#    'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "authy",
+        "USER": "authy_user",
+        "PASSWORD": "@Admin_Authy",
+        "HOST": "127.0.0.1",
+        "PORT": "5433",
+        
+    },
+
+     
 }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = "accounts.User"  
 
 AUTH_PASSWORD_VALIDATORS = [
     {
