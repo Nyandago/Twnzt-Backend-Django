@@ -43,8 +43,6 @@ INSTALLED_APPS = [
 
     #auth
     'rest_framework.authtoken',
-  
-    
 
     #user accounts
     'accounts'
